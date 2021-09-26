@@ -1,5 +1,4 @@
 
-
 define e = Character("Ellie", color="#ff0000")
 
 define j = Character("Josh", color="#ffff00")
@@ -53,78 +52,78 @@ label start:
 
     scene bg_black
 
-    "{i}Ugh, we’re only halfway through the flight. I try to control my anxiety, but the FRC worlds competition is only two days away.{/i} "
+"{i}Ugh, we’re only halfway through the flight. I try to control my anxiety, but the FRC worlds competition is only two days away.{/i} "
 
-    play sound "audio/SFX_Alarm.ogg"
+play sound "audio/SFX_Alarm.ogg"
 
-    p "Huh?"
+p "Huh?"
 
-    "{b}[[Warning! Critical engine failure! Attempting emergency landing]{/b}"
+"{b}[[Warning! Critical engine failure! Attempting emergency landing]{/b}"
 
-    j "AAAAAAH!! WE’RE ALL GONNA DIE!"
+j "AAAAAAH!! WE’RE ALL GONNA DIE!"
 
-    e "Stay calm everyone, panicking won't help us. Grab your lifevest from under the seats."
+e "Stay calm everyone, panicking won't help us. Grab your lifevest from under the seats."
 
-    i "Relax, these high end planes are built for this, it should be able to make a water landing just fine."
+i "Relax, these high end planes are built for this, it should be able to make a water landing just fine."
 
-    j "Ok... just stay calm..."
+j "Ok... just stay calm..."
 
-    "{i}I haven't even had time to process what's happening, but i find myself grabbing my life vest.
+"{i}I haven't even had time to process what's happening, but i find myself grabbing my life vest.
     I hope Isaac is right about this.{/i}"
 
-    play sound "audio/SFX_Crash.ogg"
+play sound "audio/SFX_Crash.ogg"
 
-    pause 8.0
+pause 8.0
 
-    scene bg_crash_site_default
+scene bg_crash_site_default
 
-    stop sound fadeout 0.5
+stop sound fadeout 0.5
 
-    play music "audio/MU_Tense.ogg"
+play music "audio/MU_Tense.ogg"
 
 #PANIC PANIC PANIC PANIC PANIC PANIC PANIC PANIC PANIC PANIC PANIC PANIC PANIC PANIC PANIC PANIC PANIC PANIC PANIC PANIC PANIC
 
 label InitialMomentofPanic:
 
-    scene bg_crash_site_default
+scene bg_crash_site_default
 
-    show chr_ellie_scared at zoom_out,center
+show chr_ellie_scared at zoom_out,center
 
-    e "Guys! What do we do? Where the hell are we?"
-
-    show chr_josh_scared at zoom_out,center
-
-    j "I don't know, eveyrthing was happening so fast! I can't believe it."
-
-    e "We need to do something! Let's call for help."
-
-    i "My phone has no signal I can't send anything out"
-
-    e "Mine too"
-
-    j "Same here"
-
-    p "What do we do?"
-
-show chr_isaac_thinking at zoom_out,center
-
-    i = "We should split up. Maybe there's someone on the island that could help us."
+e "Guys! What do we do? Where the hell are we?"
 
 show chr_josh_scared at zoom_out,center
 
-    j = "That's a terrible idea. That's what they always say in horror movies before something horrible happens."
+j "I don't know, eveyrthing was happening so fast! I can't believe it."
+
+e "We need to do something! Let's call for help."
+
+i "My phone has no signal I can't send anything out"
+
+e "Mine too"
+
+j "Same here"
+
+p "What do we do?"
+
+show chr_isaac_thinking at zoom_out,center
+
+i = "We should split up. Maybe there's someone on the island that could help us."
+
+show chr_josh_scared at zoom_out,center
+
+j = "That's a terrible idea. That's what they always say in horror movies before something horrible happens."
 
 show chr_ellie_thinking at zoom_out,center
 
-    e = "But he has a point, maybe we're not alone. I think we should start in the forest, if anything we may be able to find some important resources or shelter."
+e = "But he has a point, maybe we're not alone. I think we should start in the forest, if anything we may be able to find some important resources or shelter."
 
-    j = "No way! I'm staying right here, maybe someone will come by on a boat"
+j = "No way! I'm staying right here, maybe someone will come by on a boat"
 
-    i = "I think there's a cave on the other side fo the forest, I saw it when we were flying over - we should check it out"
+i = "I think there's a cave on the other side fo the forest, I saw it when we were flying over - we should check it out"
 
-    j = "Are you crazy? I'm not doing that"
+j = "Are you crazy? I'm not doing that"
 
-    e = "Okay forget it, we're wasting daylight. Let's split up: [playerName] who do you want to go with?"
+e = "Okay forget it, we're wasting daylight. Let's split up: [playerName] who do you want to go with?"
 
 #option flashes across the screen for player to pick who they want to go with
 
@@ -142,7 +141,7 @@ menu:
 
 # FOREST FOREST FOREST FOREST FOREST FOREST FOREST FOREST FOREST FOREST FOREST FOREST FOREST FOREST
 
-label forest_explore
+label forest_explore:
 
 scene BG_forest_default
 
@@ -177,34 +176,35 @@ menu:
 
 label beach_explore:
 
-    scene bg_crash_site_default
+scene bg_crash_site_default
 
-    show chr_josh_neutral at zoom_out, center
+show chr_josh_neutral at zoom_out, center
 
-    j  "Ok, I guess we should look around for anything that might help us"
+j  "Ok, I guess we should look around for anything that might help us"
 
-    hide chr_josh_neutral
+hide chr_josh_neutral
 
-    #[Player explores beach, clicking on objects, some may not be important (different camera angles?)]
+#[Player explores beach, clicking on objects, some may not be important (different camera angles?)]
 
-    #[Finds main clue]
-    p "Hmmm, this is interesting…"
+#[Finds main clue]
 
-    scene bg_crash_site_camera
+p "Hmmm, this is interesting…"
 
-    show chr_josh_neutral at zoom_out, center
+scene bg_crash_site_camera
 
-    j "Its... a camera?"
+show chr_josh_neutral at zoom_out, center
 
-    p "It looks like its turned on too"
+j "Its... a camera?"
 
-    p "why would a camera be on this random island"
+p "It looks like its turned on too"
 
-    j "Maybe somebody's studying the wildlife?"
+p "why would a camera be on this random island"
 
-    p "It's definetly strange though"
+j "Maybe somebody's studying the wildlife?"
 
-    p "I'm gonna go see what else is on this island"
+p "It's definetly strange though"
+
+p "I'm gonna go see what else is on this island"
 
     menu:
 
@@ -224,31 +224,31 @@ label beach_explore:
 
 label cave_explore:
 
-    scene bg_cave_default
+scene bg_cave_default
 
-    show chr_isaac_neutral at zoom_out, center
+show chr_isaac_neutral at zoom_out, center
 
-    i "Well, this is a cool cave, but I doubt there's anything to help us here"
+i "Well, this is a cool cave, but I doubt there's anything to help us here"
 
-    "I think i’ll look around just in case"
+P "I think i’ll look around just in case"
 
-    hide chr_isaac_neutral
+hide chr_isaac_neutral
 
-    "[[Finds clue]"
+"[[Finds clue]"
 
-    "Hmmm, what’s this?"
+"Hmmm, what’s this?"
 
-    "[[scrap of paper with info about experimental drug
+"[[scrap of paper with info about experimental drug
 
-    Effects set in 15-30 minutes after administration, and persist for up to 8 hours.
+Effects set in 15-30 minutes after administration, and persist for up to 8 hours.
 
-    Recipients have heightened awareness and senses. They remain calm even in extreme stress.]"
+Recipients have heightened awareness and senses. They remain calm even in extreme stress.]"
 
-    "It's about some sort of drug? Why is this here?"
+"It's about some sort of drug? Why is this here?"
 
-    show chr_isaac_neutral at zoom_out, center
+show chr_isaac_neutral at zoom_out, center
 
-    i "It must be some trash, perhaps it flew off a boat in strong wind. Anyways, it won’t help us get off this island."
+i "It must be some trash, perhaps it flew off a boat in strong wind. Anyways, it won’t help us get off this island."
 #    "[[TBD More dialogue]"
 
     menu:
@@ -269,7 +269,7 @@ label cave_explore:
 
 #CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE
 
-label discoveringClue
+label discoveringClue:
 
 scene bg beach
 
@@ -335,7 +335,7 @@ e "You can take a break too, you seem tired. I'm going to head over to the crash
 
 #MYSTERY MYSTERY MYSTERY MYSTERY MYSTERY MYSTERY MYSTERY MYSTERY MYSTERY MYSTERY MYSTERY MYSTERY MYSTERY
 
-label questionedMystery
+label questionedMystery:
 
 scene BG_crashsite_default
 
@@ -369,7 +369,7 @@ e "Are you trying to say one of us did this?"
 
 #TRAITOR TRAITOR TRAITOR TRAITOR TRAITOR TRAITOR TRAITOR TRAITOR TRAITOR TRAITOR TRAITOR TRAITOR TRAITOR
 
-label pickingTraitor
+label pickingTraitor:
 
 show chr_ellie_thinking
 
@@ -406,114 +406,113 @@ menu:
 
 label bad_end_ellie:
 
-    p "I don't trust Ellie"
+p "I don't trust Ellie"
 
-    show chr_ellie_scared at center, zoom_out
+show chr_ellie_scared at center, zoom_out
 
-    e "What the hell, what do you mean!"
+e "What the hell, what do you mean!"
 
-    show chr_isaac_thinking at center, zoom_out
+show chr_isaac_thinking at center, zoom_out
 
-    i "I agree, Ellie has been acting really weird"
+i "I agree, Ellie has been acting really weird"
 
-    show chr_ellie_neutral at center, zoom_out
+show chr_ellie_neutral at center, zoom_out
 
-    e "Hey! Don't jump to conclusions, I'm just stressed."
+e "Hey! Don't jump to conclusions, I'm just stressed."
 
-    show chr_isaac_neutral at center, zoom_out
+show chr_isaac_neutral at center, zoom_out
 
-    i "No You're a traitor! We're leaving without you"
+i "No You're a traitor! We're leaving without you"
 
-    show chr_josh_neutral at center, zoom_out
+show chr_josh_neutral at center, zoom_out
 
-    j "We still haven't figured out that leaving part yet..."
+j "We still haven't figured out that leaving part yet..."
 
-    show chr_isaac_neutral at center, zoom_out
+show chr_isaac_neutral at center, zoom_out
 
-    i "Actually, I found a radio before leaving that cave, I think I can call for help"
+i "Actually, I found a radio before leaving that cave, I think I can call for help"
 
-    hide chr_isaac_neutral at center, zoom_out
+hide chr_isaac_neutral at center, zoom_out
 
-    "We tried the radio, and managed to call for help."
+"We tried the radio, and managed to call for help."
 
-    show chr_ellie_neutral at center, zoom_out
+show chr_ellie_neutral at center, zoom_out
 
-    e "You're not actually going to leave without me, are you?"
+e "You're not actually going to leave without me, are you?"
 
+p "You got us into this mess, you can find your own way back"
 
-    p "You got us into this mess, you can find your own way back"
+show chr_ellie_neutral at center, zoom_out with vpunch
 
-    show chr_ellie_neutral at center, zoom_out with vpunch
+"With Ellie unconscious, we made our way to the rescue boat"
 
-    "With Ellie unconscious, we made our way to the rescue boat"
+hide chr_ellie_neutral
 
-    hide chr_ellie_neutral
+show bg_black with fade
 
-    show bg_black with fade
+p "It feels so good to be out of this mess right isa-"
 
-    p "It feels so good to be out of this mess right isa-"
+"I feel a sharp pain in my back."
 
-    "I feel a sharp pain in my back."
+"Turning around, I see Isaac holding a bloody knife"
 
-    "Turning around, I see Isaac holding a bloody knife"
-
-    "[[BAD END]"
+"[[BAD END]"
 
 label bad_end_josh:
 
-    p "I don't trust Josh"
+p "I don't trust Josh"
 
-    show chr_josh_scared at center, zoom_out
+show chr_josh_scared at center, zoom_out
 
-    j "What the hell, what do you mean!"
+j "What the hell, what do you mean!"
 
-    show chr_isaac_thinking at center, zoom_out
+show chr_isaac_thinking at center, zoom_out
 
-    i "I agree, Josh has been acting really weird"
+i "I agree, Josh has been acting really weird"
 
-    show chr_josh_neutral at center, zoom_out
+show chr_josh_neutral at center, zoom_out
 
-    j "Hey! Don't jump to conclusions, I'm just stressed."
+j "Hey! Don't jump to conclusions, I'm just stressed."
 
-    show chr_isaac_neutral at center, zoom_out
+show chr_isaac_neutral at center, zoom_out
 
-    i "No You're a traitor! We're leaving without you"
+i "No You're a traitor! We're leaving without you"
 
-    show chr_ellie_neutral at center, zoom_out
+show chr_ellie_neutral at center, zoom_out
 
-    e "We still haven't figured out that leaving part yet..."
+e "We still haven't figured out that leaving part yet..."
 
-    show chr_isaac_neutral at center, zoom_out
+show chr_isaac_neutral at center, zoom_out
 
-    i "Actually, I found a radio before leaving that cave, I think I can call for help"
+i "Actually, I found a radio before leaving that cave, I think I can call for help"
 
-    "We tried the radio, and managed to call for help."
+"We tried the radio, and managed to call for help."
 
-    show chr_josh_neutral at center, zoom_out
+show chr_josh_neutral at center, zoom_out
 
-    j "You're not actually going to leave without me, are you?"
+j "You're not actually going to leave without me, are you?"
 
-    p "You got us into this mess, you can find your own way back"
+p "You got us into this mess, you can find your own way back"
 
-    show chr_josh_neutral at center, zoom_out with vpunch
+show chr_josh_neutral at center, zoom_out with vpunch
 
-    "With Josh unconscious, we made our way to the rescue boat"
+"With Josh unconscious, we made our way to the rescue boat"
 
-    hide chr_josh_neutral
+hide chr_josh_neutral
 
-    show bg_black with fade
+show bg_black with fade
 
-    p "It feels so good to be out of this mess right isa-"
+p "It feels so good to be out of this mess right isa-"
 
-    "I feel a sharp pain in my back."
+"I feel a sharp pain in my back."
 
-    "Turning around, I see Isaac holding a bloody knife"
+"Turning around, I see Isaac holding a bloody knife"
 
-    "[[BAD END]"
+"[[BAD END]"
 
 #GOOD ENDING GOOD ENDING GOOD ENDING GOOD ENDING GOOD ENDING GOOD ENDING GOOD ENDING GOOD ENDING GOOD ENDING GOOD ENDING
 
-label goodEnd
+label goodEnd:
 
 p "Issac"
 
