@@ -1,23 +1,4 @@
 
-define e = Character("Ellie", color="#ff0000")
-
-define j = Character("Josh", color="#ffff00")
-
-define i = Character("Isaac", color="#0000ff")
-
-default playerName = "player"
-
-define p = Character("[playerName]")
-
-default cave_explored = False
-
-default forest_explored = False
-
-default beach_explored = False
-
-transform zoom_out:
-    zoom 0.2
-
 # The script of the game goes in this file.
 
 # Declare characters used by this game. The color argument colorizes the
@@ -107,23 +88,23 @@ p "What do we do?"
 
 show chr_isaac_thinking at zoom_out,center
 
-i = "We should split up. Maybe there's someone on the island that could help us."
+i "We should split up. Maybe there's someone on the island that could help us."
 
 show chr_josh_scared at zoom_out,center
 
-j = "That's a terrible idea. That's what they always say in horror movies before something horrible happens."
+j "That's a terrible idea. That's what they always say in horror movies before something horrible happens."
 
 show chr_ellie_thinking at zoom_out,center
 
-e = "But he has a point, maybe we're not alone. I think we should start in the forest, if anything we may be able to find some important resources or shelter."
+e "But he has a point, maybe we're not alone. I think we should start in the forest, if anything we may be able to find some important resources or shelter."
 
-j = "No way! I'm staying right here, maybe someone will come by on a boat"
+j "No way! I'm staying right here, maybe someone will come by on a boat"
 
-i = "I think there's a cave on the other side fo the forest, I saw it when we were flying over - we should check it out"
+i "I think there's a cave on the other side fo the forest, I saw it when we were flying over - we should check it out"
 
-j = "Are you crazy? I'm not doing that"
+j "Are you crazy? I'm not doing that"
 
-e = "Okay forget it, we're wasting daylight. Let's split up: [playerName] who do you want to go with?"
+e "Okay forget it, we're wasting daylight. Let's split up: [playerName] who do you want to go with?"
 
 #option flashes across the screen for player to pick who they want to go with
 
@@ -164,11 +145,11 @@ e "I don't know if this was an acciodent, I'm not sure how much I trust our tean
 
 menu:
     "Go find Isaac" if not cave_explored:
-        $cave_explored = true
+        $cave_explored = True
         jump cave_explore
     "Go find Josh" if not beach_explored:
         $beach_explored = True
-        jump beach_explore = true
+        jump beach_explore
     "Head back with Ellie":
         jump discoveringClue
 
@@ -206,19 +187,18 @@ p "It's definetly strange though"
 
 p "I'm gonna go see what else is on this island"
 
-    menu:
+menu:
+    "Who should I go with?"
 
-        "Who should I go with?"
-
-        "Josh" if not beach_explored:
-            $ beach_explored = True
-            jump beach_explore
-        "Ellie" if not forest_explored:
-            $ forest_explored = True
-            jump forest_explore
-        "Isaac" if not cave_explored:
-            $ cave_explored = True
-            jump cave_explore
+    "Josh" if not beach_explored:
+        $ beach_explored = True
+        jump beach_explore
+    "Ellie" if not forest_explored:
+        $ forest_explored = True
+        jump forest_explore
+    "Isaac" if not cave_explored:
+        $ cave_explored = True
+        jump cave_explore
 
 #CAVE CAVE CAVE CAVE CAVE CAVE CAVE CAVE CAVE CAVE CAVE CAVE CAVE CAVE CAVE CAVE CAVE CAVE CAVE CAVE CAVE CAVE CAVE
 
@@ -251,19 +231,19 @@ show chr_isaac_neutral at zoom_out, center
 i "It must be some trash, perhaps it flew off a boat in strong wind. Anyways, it won’t help us get off this island."
 #    "[[TBD More dialogue]"
 
-    menu:
+menu:
 
-        "Who should I go with?"
+    "Who should I go with?"
 
-        "Josh" if not beach_explored:
-            $ beach_explored = True
-            jump beach_explore
-        "Ellie" if not forest_explored:
-            $ forest_explored = True
-            jump forest_explore
-        "Isaac" if not cave_explored:
-            $ cave_explored = True
-            jump cave_explore
+    "Josh" if not beach_explored:
+        $ beach_explored = True
+        jump beach_explore
+    "Ellie" if not forest_explored:
+        $ forest_explored = True
+        jump forest_explore
+    "Isaac" if not cave_explored:
+        $ cave_explored = True
+        jump cave_explore
 
 #the menus about picking who to go with needs an end option
 
@@ -394,13 +374,13 @@ e "This is psychotic____ what do we do?"
 p " We're going to have to vote someone out....now."
 
 menu:
-    "Who do I vote out?" :
-        "Ellie":
-            jump bad_end_ellie
-        "Josh":
-            jump bad_end_josh
-        "Issac":
-            jump goodEnd
+    "Who do I vote out?"
+    "Ellie":
+        jump bad_end_ellie
+    "Josh":
+        jump bad_end_josh
+    "Issac":
+        jump goodEnd
 
 #BAD ENDING BAD ENDING BAD ENDING BAD ENDING BAD ENDING BAD ENDING BAD ENDING BAD ENDING BAD ENDING BAD ENDING BAD ENDING
 
@@ -548,4 +528,4 @@ e "I'll call for help"
 
     # This ends the game.
 
-    return
+return
