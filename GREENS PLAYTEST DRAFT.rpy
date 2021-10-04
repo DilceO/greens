@@ -22,22 +22,54 @@ default forest_explored = False
 default beach_explored = False
 
 transform zoom_out:
-    zoom 0.2
+    zoom 0.6
 transform left_center:
-    xalign 0.3
+    xalign 0.2
     yalign 1.0
 transform right_center:
-    xalign 0.7
+    xalign 0.8
     yalign 1.0
 
+init python:
+    attempts = 3
+    def fail_clue(fail_label):
+        globals()['attempts'] -= 1
+        if globals()['attempts'] <= 0:
+            renpy.jump(fail_label)
 # START START START START START START START START START START START START START START START START START START
-label start:
 
+
+
+screen click_clue(x,y,found_label,fail_label):
+    zorder 3
+    modal True
     python:
-        playerName = renpy.input("What is your name?", length=32)
-        playerName = playerName.strip()
+        display_attempts = "Attempts: %d" % attempts
 
-    scene bg_black
+    text display_attempts xalign 0.5
+    imagebutton:
+        xalign 0.5
+        yalign 0.5
+        idle "fullscreen_button.png"
+        action Function(fail_clue,fail_label)
+    imagebutton:
+        xalign x
+        yalign y
+        idle "clue_button.png"
+        action Jump(found_label)
+
+
+
+
+label start:
+scene bg_black
+
+
+python:
+    playerName = renpy.input("What is your name?", length=32)
+    playerName = playerName.strip()
+
+scene bg_black
 
 "{i}Ugh, we’re only halfway through the flight. I try to control my anxiety, but the FRC worlds competition is only two days away.{/i} "
 
@@ -139,7 +171,7 @@ menu:
     "Josh" if not beach_explored:
         $beach_explored = True
         jump beach_explore
-    "Issac" if not cave_explored:
+    "Isaac" if not cave_explored:
         $cave_explored = True
         jump cave_explore
 
@@ -155,22 +187,43 @@ play music "audio/MU_Adventure.ogg" fadeout 1.0 fadein 1.0
 
 e "Thanks for coming with me, I know I'm not showing it but I'm terrified"
 
-p "Of course, what are we looking for?"
 
 e "We need to be on high alert. Any sign of human life could be the difference between when or if we get off this island. I can't believe this is our life right now."
 e "I don't understand how it's even possible, doesn't it seem crazy? There has to be something here that could tell us more about where we are. Do you see anything?"
+$attempts = 3
+hide chr_ellie_neutral
+window hide
+show screen click_clue(0.4,0.3,"forest_found_clue","forest_fail_clue")
+pause
 
-p "Not that I can tell"
+label forest_found_clue:
+window show
+hide screen click_clue
+p "There's a phone here."
+show chr_ellie_neutral at zoom_out, center
+e "Really? Let me look."
 
+hide chr_ellie_neutral
 show chr_ellie_thinking at zoom_out, center
 
-e "I don't know if this was an accident, I'm not sure how much I trust our team– what are you thinking?"
+e "It's locked, but there's a text message I can read"
+e "It says 'Is our agent ready?'"
 
-p "Hmm, I'm not sure"
+p "What? Agent? Like a spy?"
 
+e "Maybe"
+e "I don't know if this crash was an accident, I'm not sure how much I trust our team– what are you thinking?"
+
+p "Hmm, I'm not going to jump to conclusions yet."
+
+jump forest_end
+label forest_fail_clue:
+window show
+hide screen click_clue
+p "Nope, couldn't find anything around here"
+
+label forest_end:
 p "I'm going to see what the others have to say"
-#more dialogue
-#insert a clue somewhere here
 
 menu:
     "Go find Isaac" if not cave_explored:
@@ -188,16 +241,24 @@ label beach_explore:
 
 scene bg_crash_site_default
 
-show chr_josh_neutral at zoom_out, center
+show chr_josh_scared at zoom_out, center
+
+j  "I can't believe this is happening! I knew there was a reason to be scared of flying."
+
+p "Let's just stay focused, we need to find a way to get help"
 
 j  "Ok, I guess we should look around for anything that might help us"
 
 hide chr_josh_neutral
 
-#[Player explores beach, clicking on objects, some may not be important (different camera angles?)]
+$attempts = 3
+window hide
+show screen click_clue(0.5,0.8,"beach_found_clue","beach_fail_clue")
+pause
 
-#[Finds main clue]
-
+label beach_found_clue:
+window show
+hide screen click_clue
 p "Hmmm, this is interesting…"
 
 scene bg_crash_site_camera
@@ -214,7 +275,14 @@ show chr_josh_thinking at zoom_out, center
 j "Maybe somebody's studying the wildlife?"
 
 p "It's definitely strange though"
+jump beach_end
 
+label beach_fail_clue:
+window show
+hide screen click_clue
+p "Sorry, couldn't find anything here"
+
+label beach_end:
 p "I'm gonna go see what else is on this island"
 
 menu:
@@ -242,16 +310,28 @@ show chr_isaac_neutral at zoom_out, center
 
 i "Well, this is a cool cave, but I doubt there's anything to help us here"
 
-p "I think i’ll look around just in case"
+i "I suppose we no longer have a chance to compete in FRC Worlds. What a shame"
+
+p "Oh, I totally forgot about that..."
+
+p "Anyways, I think I’ll look around here just in case there's something useful"
 
 hide chr_isaac_neutral
-scene bg_cave_stickynote
-"[[Finds clue]"
 
-"Hmmm, what’s this?"
+$attempts = 3
+window hide
+show screen click_clue(0.7,0.3,"cave_found_clue","cave_fail_clue")
+pause
+
+label cave_found_clue:
+window show
+hide screen click_clue
+scene bg_cave_stickynote
+
+p "Hmmm, what’s this?"
 
 "[[scrap of paper with info about experimental drug]"
-"-Effects set in 15-30 minutes after administration, and persist for up to 8 hours."
+"-Effects set in 15-30 minutes after administration, and persist for up to 4 hours."
 "-Recipients have heightened awareness and senses. They remain calm even in extreme stress."
 
 p "It's about some sort of drug? Why is this here?"
@@ -259,8 +339,21 @@ p "It's about some sort of drug? Why is this here?"
 show chr_isaac_neutral at zoom_out, center
 
 i "It must be some trash, perhaps it flew off a boat in strong wind. Anyways, it won’t help us get off this island."
-#    "[[TBD More dialogue]"
 
+p "Sure, but it seems interesting."
+jump cave_end
+
+label cave_fail_clue:
+window show
+hide screen click_clue
+
+p "Looks like there's nothing here."
+
+show chr_isaac_neutral at zoom_out, center
+i "I told you so."
+
+label cave_end:
+p "I'll go see what else is going on"
 menu:
 
     "Who should I go with?"
@@ -277,13 +370,13 @@ menu:
     "Head back to the beach" if beach_explored and forest_explored:
         jump discoveringClue
 
-#the menus about picking who to go with needs an end option
+
 
 #CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE CLUE
 
 label discoveringClue:
 
-scene BG_crashsite_default
+scene BG_crash_site_default
 
 show chr_isaac_neutral at zoom_out, right_center
 
@@ -311,7 +404,7 @@ e "Watch your mouth, just because we're stuck here doesn't mean you get to act l
 
 i "What did you just call me?"
 
-j "Isaac back off, she's not wrong you we shouldn't be turning on eachother, that's the worst thing we can do"
+j "Isaac back off! she's not wrong, we shouldn't be turning on eachother, that's the worst thing we can do"
 
 scene bg_crash_site_default
 show chr_isaac_neutral at zoom_out, center
@@ -336,7 +429,7 @@ e "Don't be an asshole Isaac"
 hide chr_ellie_neutral
 show chr_isaac_neutral at zoom_out, center
 
-i "Then don't be abitch Ellie"
+i "Then don't be a bitch Ellie"
 
 p "Guys we should all calm down"
 
@@ -367,9 +460,14 @@ e "You can take a break too, you seem tired. I'm going to head over to the crash
 
 #MYSTERY MYSTERY MYSTERY MYSTERY MYSTERY MYSTERY MYSTERY MYSTERY MYSTERY MYSTERY MYSTERY MYSTERY MYSTERY
 
+
 label questionedMystery:
 
+default wrongGuesses = 0
+
 scene bg_crash_site_default
+
+"{i}After a while, everyone calmed down{/i}"
 
 show chr_ellie_thinking at zoom_out, right_center
 
@@ -379,23 +477,89 @@ show chr_isaac_thinking at zoom_out, center
 
 e "Something strange is happening on this island and we need to figure it out"
 
-p "I think I have a theory, we're being watched"
+p "I think I have a theory..."
 
-j "I think so too, with that camera we found"
+menu:
+    "What is happening?"
 
-i "What would they want with us though"
+    "Someone is watching us":
+        jump Q1_correct
+    "We are hallucinating":
+        $wrongGuesses += 1
+        jump Q1_fail
+    "We just happened to crash on a random island":
+        $wrongGuesses += 1
+        jump Q1_fail
 
-p "I think they're testing an experimental drug on us, something that affects how we react under stress. They could have even caused the plane to crash"
+label Q1_fail:
+    e "No, that doesn't make sense to me."
 
-i "What, like the piece of trash you found in the cave? That's absurd"
+    i "Yeah, what are you saying?"
 
-e "Hmm, I have been feeling strangely calm considering what's happening"
+    j "I think someone is watching us, I found a hidden camera on the beach"
+    jump Q2
+label Q1_correct:
+j "I think so too, there was a secret camera on the beach"
 
-j "But when could they have done this? I haven't seen anyone on the island"
+label Q2:
+i "Who is watching though?"
 
-p "It was on the plane."
+menu:
+    "Who is watching us?"
 
-j "What?! It was just the four of us then too."
+    "A crazy billionare who owns this island":
+        $wrongGuesses += 1
+        jump Q2_fail
+    "A biomedical company":
+        jump Q2_correct
+    "The Illuminati":
+        $wrongGuesses += 1
+        jump Q2_fail
+
+label Q2_correct:
+i "There was that strange paper in the cave talking about a drug, but I doubt it's relevant"
+
+e "Hmm, but I have been feeling somewhat nauseous, but it may just be stress"
+
+j "Yeah, same here"
+jump Q3
+
+label Q2_fail:
+    j "That can't be right"
+
+    i "This may have something to do with that strange note in the cave..."
+    i "It mentioned some sort of drug. Perhaps we are being experimented on?"
+
+label Q3:
+j "So you think we were drugged? But when?"
+
+menu:
+    "When were we given the drug?"
+
+    "On the plane before we crashed":
+        jump Q3_correct
+    "At the airport":
+        $wrongGuesses += 1
+        jump Q3_fail_1
+    "After we crashed":
+        $wrongGuesses += 1
+        jump Q3_fail_2
+
+label Q3_fail_1:
+    i "You're not making any sense"
+    i "The note said the effects last for 4 hours, It's been way longer than that"
+
+    j "So it must have been on the plane?"
+    jump Q4
+label Q3_fail_2:
+    e "Huh? But we havent eaten anything after we crashed"
+    j "I think it must have been on the plane."
+    jump Q4
+
+label Q3_correct:
+    e "Yeah that would be the only time it could happen..."
+label Q4:
+i "But how can that be, there was nobody else on that plane!"
 
 e "Are you trying to say one of us did this?"
 
@@ -423,11 +587,14 @@ e "This is psychotic! what do we do?"
 
 p " We're going to have to vote someone out....now."
 
+if wrongGuesses >= 2:
+    jump bad_end_player
+
 menu:
     "Who do I vote out?"
     "Ellie":
         jump bad_end_ellie
-    "Issac":
+    "Isaac":
         jump goodEnd
     "Josh":
         jump bad_end_josh
@@ -554,6 +721,34 @@ Turning around, I see Isaac holding a bloody knife{/i}"
 
 "[[BAD END :( ]"
 return
+
+
+label bad_end_player:
+i "If anything, I don't trust you [playerName]"
+
+e "Yeah, you seemed like you were trying to throw us off from finding out what was happening"
+
+j "I hate to say it, but thats right..."
+
+p "Wait! Think about what you're doing!"
+
+i "No You're a traitor! We're leaving without you"
+
+e "We still haven't figured out that leaving part yet..."
+
+i "Actually, I found a radio before leaving that cave, I think I can call for help"
+
+p "You're not actually going to leave without me, are you?"
+
+i "You got us into this mess, you can find your own way back!"
+
+scene bg_black with vpunch
+
+"[[BAD END]"
+return
+
+
+
 
 #GOOD ENDING GOOD ENDING GOOD ENDING GOOD ENDING GOOD ENDING GOOD ENDING GOOD ENDING GOOD ENDING GOOD ENDING GOOD ENDING
 
